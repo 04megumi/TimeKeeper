@@ -69,5 +69,24 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
+    <!-- 插件统一配置 -->
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- Spring Boot 插件 -->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>
