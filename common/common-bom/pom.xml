@@ -31,12 +31,19 @@
     <description>公共版本控制</description>
 
     <properties>
+        <timkekeeper.version>1.0.0</timkekeeper.version>
         <hutool.version>5.8.25</hutool.version>
         <swagger.core.version>1.5.22</swagger.core.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!--common-core-->
+            <dependency>
+                <groupId>com.timekeeper</groupId>
+                <artifactId>common-core</artifactId>
+                <version>1.0.0</version>
+            </dependency>
             <!--hutool-->
             <dependency>
                 <groupId>cn.hutool</groupId>
