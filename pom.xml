@@ -38,6 +38,8 @@
     <modules>
         <!--Common-->
         <module>common</module>
+        <!--Visual-->
+        <module>visual</module>
     </modules>
 
     <dependencies>
