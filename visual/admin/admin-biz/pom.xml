@@ -37,7 +37,29 @@
     <description>后台管理系统实现</description>
 
     <dependencies>
-
+        <!-- springboot模块 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- common-data -->
+        <dependency>
+            <groupId>com.timekeeper</groupId>
+            <artifactId>common-data</artifactId>
+        </dependency>
+        <!-- 数据库依赖 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
