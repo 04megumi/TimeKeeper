@@ -45,7 +45,13 @@
             <dependency>
                 <groupId>com.timekeeper</groupId>
                 <artifactId>common-core</artifactId>
-                <version>1.0.0</version>
+                <version>${timkekeeper.version}</version>
+            </dependency>
+            <!--common-data-->
+            <dependency>
+                <groupId>com.timekeeper</groupId>
+                <artifactId>common-data</artifactId>
+                <version>${timkekeeper.version}</version>
             </dependency>
             <!--hutool-->
             <dependency>
