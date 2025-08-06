@@ -26,16 +26,17 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.timekeeper</groupId>
-        <artifactId>shiguang</artifactId>
+        <artifactId>visual</artifactId>
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>visual</artifactId>
+    <artifactId>admin</artifactId>
     <packaging>pom</packaging>
 
-    <description>可视化模块</description>
+    <description>后台管理系统</description>
 
     <modules>
-        <module>admin</module>
+        <module>admin-api</module>
+        <module>admin-biz</module>
     </modules>
 </project>
