@@ -31,6 +31,7 @@
     <description>公共版本控制</description>
 
     <properties>
+        <spring-boot.version>2.6.6</spring-boot.version>
         <timkekeeper.version>1.0.0</timkekeeper.version>
         <hutool.version>5.8.25</hutool.version>
         <swagger.core.version>1.5.22</swagger.core.version>
@@ -99,6 +100,12 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
                 <version>${druid.version}</version>
+            </dependency>
+            <!--spring boot test-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${spring-boot.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
