@@ -1,14 +1,17 @@
 package com.timekeeper.common.data.mybatis.config;
 
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.timekeeper.common.data.mybatis.service.CurrentUserService;
 import com.timekeeper.common.data.mybatis.handler.MybatisPlusMetaObjectHandler;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import javax.sql.DataSource;
 
 /**
@@ -28,9 +31,41 @@ public class MybatisPlusConfiguration {
     private final CurrentUserService currentUserService;
 
     /**
+     * 配置 Mybatis-Plus 的核心拦截器 {@link MybatisPlusInterceptor}。
+     *
+     * 该拦截器统一注册分页插件，并根据配置决定是否启用乐观锁插件。
+     *
+     * 使用说明：
+     * - 分页插件始终启用，支持分页查询。
+     * - 若在配置文件中设置：mybatis-plus.interceptor.optimistic-lock=true，
+     *   则启用乐观锁插件，支持基于 version 字段的乐观锁机制。
+     *
+     * 示例配置（application.yml）：
+     * mybatis-plus:
+     *   interceptor:
+     *     optimistic-lock: true
+     *
+     * @param enableOptimisticLock 是否启用乐观锁插件，默认 false
+     * @return MybatisPlusInterceptor 拦截器实例
+     */
+    @Bean
+    public MybatisPlusInterceptor mybatisPlusInterceptor (@Value("${mybatis-plus.interceptor.optimistic-lock:false}") boolean enableOptimisticLock) {
+        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        // 注册分页插件
+        PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor();
+        paginationInnerInterceptor.setMaxLimit(1000L);
+        interceptor.addInnerInterceptor(paginationInnerInterceptor);
+        // 根据配置选择是否启用乐观锁
+        if (enableOptimisticLock) {
+            interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
+        }
+        return interceptor;
+    }
+
+    /**
      * 审计字段自动填充
      *
-     * @return MetaObjectHandler
+     * @return {@link MybatisPlusMetaObjectHandler}
      */
     @Bean
     public MybatisPlusMetaObjectHandler mybatisPlusMetaObjectHandler() {

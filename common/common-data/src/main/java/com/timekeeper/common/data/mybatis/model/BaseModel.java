@@ -4,6 +4,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -50,6 +51,13 @@ public class BaseModel<T extends BaseModel<?>> extends Model<T> {
      */
     @TableField(value = "update_by", fill = FieldFill.INSERT_UPDATE)
     protected Integer updateBy;
+
+    /**
+     * 乐观锁版本号
+     */
+    @Version
+    @TableField(value = "version")
+    protected Integer version;
 
     /**
      * 是否已删除记录
