@@ -1,4 +1,4 @@
-package com.timekeeper.common.data.mybatis;
+package com.timekeeper.common.data.mybatis.service;
 
 /**
  * 获取当前用户服务

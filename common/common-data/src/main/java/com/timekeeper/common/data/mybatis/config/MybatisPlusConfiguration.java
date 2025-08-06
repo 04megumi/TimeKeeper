@@ -1,5 +1,7 @@
-package com.timekeeper.common.data.mybatis;
+package com.timekeeper.common.data.mybatis.config;
 
+import com.timekeeper.common.data.mybatis.service.CurrentUserService;
+import com.timekeeper.common.data.mybatis.handler.MybatisPlusMetaObjectHandler;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;

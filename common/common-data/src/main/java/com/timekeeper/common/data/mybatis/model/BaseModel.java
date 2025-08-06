@@ -1,4 +1,4 @@
-package com.timekeeper.common.data.mybatis;
+package com.timekeeper.common.data.mybatis.model;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.annotation.FieldFill;

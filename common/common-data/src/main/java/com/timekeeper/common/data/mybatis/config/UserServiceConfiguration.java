@@ -1,5 +1,7 @@
-package com.timekeeper.common.data.mybatis;
+package com.timekeeper.common.data.mybatis.config;
 
+import com.timekeeper.common.data.mybatis.service.CurrentUserService;
+import com.timekeeper.common.data.mybatis.service.impl.CurrentUserServiceImpl;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

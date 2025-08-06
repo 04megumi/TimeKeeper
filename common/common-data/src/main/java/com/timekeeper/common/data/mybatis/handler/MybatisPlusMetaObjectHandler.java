@@ -1,8 +1,9 @@
-package com.timekeeper.common.data.mybatis;
+package com.timekeeper.common.data.mybatis.handler;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.timekeeper.common.data.mybatis.service.CurrentUserService;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.util.ClassUtils;
 import java.nio.charset.Charset;

@@ -1,6 +1,6 @@
-package com.timekeeper.common.data.mybatis;
+package com.timekeeper.common.data.mybatis.service.impl;
 
-import org.springframework.stereotype.Component;
+import com.timekeeper.common.data.mybatis.service.CurrentUserService;
 
 /**
  * 获取当前用户服务实现
