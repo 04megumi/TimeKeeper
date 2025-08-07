@@ -31,6 +31,7 @@
     <description>公共版本控制</description>
 
     <properties>
+        <aspect.version>1.9.19</aspect.version>
         <spring.security.oauth2.version>5.6.2</spring.security.oauth2.version>
         <javax.servlet.version>4.0.1</javax.servlet.version>
         <jwt.version>0.12.6</jwt.version>
@@ -187,6 +188,12 @@
                 <artifactId>javax.servlet-api</artifactId>
                 <version>${javax.servlet.version}</version>
                 <scope>provided</scope>
+            </dependency>
+            <!--aop-->
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>${aspect.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
