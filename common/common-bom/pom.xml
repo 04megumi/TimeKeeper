@@ -31,6 +31,7 @@
     <description>公共版本控制</description>
 
     <properties>
+        <spring.security.oauth2.version>5.6.2</spring.security.oauth2.version>
         <javax.servlet.version>4.0.1</javax.servlet.version>
         <jwt.version>0.12.6</jwt.version>
         <flyway.mysql.version>10.9.0</flyway.mysql.version>
@@ -128,6 +129,16 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-security</artifactId>
                 <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-oauth2-resource-server</artifactId>
+                <version>${spring.security.oauth2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-oauth2-jose</artifactId>
+                <version>${spring.security.oauth2.version}</version>
             </dependency>
             <!--spring boot test-->
             <dependency>

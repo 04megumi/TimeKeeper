@@ -4,6 +4,7 @@ import com.timekeeper.common.security.service.BaseUserDetails;
 import com.timekeeper.common.security.service.BaseUserDetailsService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 
 
 /**
@@ -18,6 +19,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  *
  * @author 魏子越
  */
+@Component
 @ConditionalOnMissingBean(BaseUserDetailsService.class)
 public class DefaultUserDetailsService implements BaseUserDetailsService {
 
