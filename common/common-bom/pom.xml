@@ -31,6 +31,7 @@
     <description>公共版本控制</description>
 
     <properties>
+        <javax.servlet.version>4.0.1</javax.servlet.version>
         <jwt.version>0.12.6</jwt.version>
         <flyway.mysql.version>10.9.0</flyway.mysql.version>
         <flyway.version>7.15.0</flyway.version>
@@ -164,6 +165,12 @@
                 <artifactId>jjwt-jackson</artifactId>
                 <version>${jwt.version}</version>
                 <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${javax.servlet.version}</version>
+                <scope>provided</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
