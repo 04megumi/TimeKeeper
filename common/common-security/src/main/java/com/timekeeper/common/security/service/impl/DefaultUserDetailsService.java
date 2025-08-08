@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 public class DefaultUserDetailsService implements BaseUserDetailsService {
 
     @Override
-    public BaseUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public BaseUserDetails loadUserByUid(String uid) throws UsernameNotFoundException {
         return new DefaultBaseUserDetails();
     }
 }

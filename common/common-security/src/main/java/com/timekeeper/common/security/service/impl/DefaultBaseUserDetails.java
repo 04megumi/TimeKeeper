@@ -19,12 +19,13 @@ import java.util.List;
 public class DefaultBaseUserDetails implements BaseUserDetails {
 
     private static final long serialVersionUID = 1L;
-    private Integer id;
+    private String id;
     private String userName;
     private String userNameEn;
+    private String userPhoneNumber;
 
     @Override
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
@@ -32,6 +33,9 @@ public class DefaultBaseUserDetails implements BaseUserDetails {
     public String getUserNameEn() {
         return userNameEn;
     }
+
+    @Override
+    public String getUserPhoneNumber() { return userPhoneNumber; }
 
     @Override
     public List<String> getPermissionIds() {

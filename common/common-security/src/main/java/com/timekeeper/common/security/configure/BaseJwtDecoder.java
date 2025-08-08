@@ -19,7 +19,6 @@ import cn.hutool.jwt.JWT;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtException;
-import java.util.stream.Collectors;
 
 /**
  * 自定义 JWT 解码器
@@ -62,10 +61,9 @@ public class BaseJwtDecoder implements JwtDecoder {
         }
 
         // 获取真实用户
-        BaseUserDetails user = this.loadUserByUsername(jwt);
+        BaseUserDetails user = this.loadUserByJwt(jwt);
 
         return Jwt.withTokenValue(token)
-                .claim("scope", user.getRoleIds().stream().map(x -> "ROLE_" + x).collect(Collectors.toList()))
                 .header(JWTHeader.ALGORITHM, jwt.getHeader(JWTHeader.ALGORITHM))
                 .expiresAt(expiresAt.toInstant())
                 .claim(SecurityConstants.DETAILS_USER, user)
@@ -89,16 +87,16 @@ public class BaseJwtDecoder implements JwtDecoder {
      * @param jwt JWT
      * @return BaseUserDetails
      */
-    public BaseUserDetails loadUserByUsername(@NonNull JWT jwt) throws UnauthorizedException {
+    public BaseUserDetails loadUserByJwt(@NonNull JWT jwt) throws UnauthorizedException {
         // jwt是否包含用户
-        String username = getUsernameByJwt(jwt);
-        if (StrUtil.isEmpty(username)) {
+        String uid = getUidByJwt(jwt);
+        if (StrUtil.isEmpty(uid)) {
             throw new UnauthorizedException("token is invalid!");
         }
 
         // jwt包含的用户是否在系统中存在
-        BaseUserDetails user = userDetailsService.loadUserByUsername(username);
-        if (ObjectUtil.isNull(user) || StrUtil.isEmpty(user.getUsername())) {
+        BaseUserDetails user = userDetailsService.loadUserByUid(uid);
+        if (ObjectUtil.isNull(user) || StrUtil.isEmpty(user.getId())) {
             throw new UnauthorizedException("token is invalid! (without user)");
         }
 
@@ -107,16 +105,16 @@ public class BaseJwtDecoder implements JwtDecoder {
 
     /**
      * @param jwt JWT对象
-     * @return jwt中的用户名
+     * @return jwt中的uid
      */
-    protected String getUsernameByJwt(JWT jwt) {
+    protected String getUidByJwt(JWT jwt) {
         if (jwt == null) {
             return null;
         }
-        Object username = jwt.getPayload(JWTPayloadConstants.USERNAME_EN);
-        if (username == null) {
+        Object uid = jwt.getPayload(JWTPayloadConstants.USER_ID);
+        if (uid == null) {
             return null;
         }
-        return username.toString();
+        return uid.toString();
     }
 }

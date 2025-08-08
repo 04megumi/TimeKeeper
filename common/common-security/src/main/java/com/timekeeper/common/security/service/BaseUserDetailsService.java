@@ -30,8 +30,8 @@ public interface BaseUserDetailsService {
     /**
      * 根据用户名获取用户信息
      *
-     * @param username the username identifying the user whose data is required.
+     * @param uid the username identifying the user whose data is required.
      * @return BaseUserDetails
      */
-    BaseUserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+    BaseUserDetails loadUserByUid(String uid) throws UsernameNotFoundException;
 }

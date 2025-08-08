@@ -20,9 +20,9 @@ public interface BaseUserDetails extends UserDetails {
     /**
      * 获取用户ID
      *
-     * @return Integer
+     * @return String
      */
-    Integer getId();
+    String getId();
 
     /**
      * 获取用户rtx
@@ -30,6 +30,13 @@ public interface BaseUserDetails extends UserDetails {
      * @return String
      */
     String getUserNameEn();
+
+    /**
+     * 获取用户手机号
+     *
+     * @return String
+     */
+    String getUserPhoneNumber();
 
     /**
      * 获取用户的权限ID列表

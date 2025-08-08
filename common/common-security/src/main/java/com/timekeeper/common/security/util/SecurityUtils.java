@@ -43,9 +43,9 @@ public class SecurityUtils {
     /**
      * 获取用户ID
      *
-     * @return Integer
+     * @return String
      */
-    public Integer getUserId() {
+    public String getUserId() {
         BaseUserDetails user = getUser();
         return user != null ? user.getId() : null;
     }
@@ -58,5 +58,15 @@ public class SecurityUtils {
     public String getUserNameEn() {
         BaseUserDetails user = getUser();
         return user != null ? user.getUserNameEn() : null;
+    }
+
+    /**
+     * 获取用户手机号
+     *
+     * @return String
+     */
+    public String getUserPhoneNumber() {
+        BaseUserDetails user = getUser();
+        return user != null ? user.getUserPhoneNumber() : null;
     }
 }
