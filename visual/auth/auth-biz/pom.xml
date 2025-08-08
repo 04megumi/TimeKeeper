@@ -37,7 +37,10 @@
     <description>登录模块实现</description>
 
     <dependencies>
-
+        <dependency>
+            <groupId>com.timekeeper</groupId>
+            <artifactId>auth-api</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

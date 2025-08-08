@@ -49,6 +49,12 @@
 
     <dependencyManagement>
         <dependencies>
+            <!--auth-api-->
+            <dependency>
+                <groupId>com.timekeeper</groupId>
+                <artifactId>auth-api</artifactId>
+                <version>${timkekeeper.version}</version>
+            </dependency>
             <!--common-core-->
             <dependency>
                 <groupId>com.timekeeper</groupId>
