@@ -1,7 +1,9 @@
 package com.timekeeper.auth.api.dto.impl;
 
 import com.timekeeper.auth.api.dto.LoginRequest;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 /**
@@ -18,6 +20,8 @@ import lombok.NonNull;
  * @author 魏子越
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AccountLoginDTO implements LoginRequest {
 
     /**

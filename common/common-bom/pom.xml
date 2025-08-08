@@ -31,6 +31,7 @@
     <description>公共版本控制</description>
 
     <properties>
+        <mapstruct.version>1.5.2.Final</mapstruct.version>
         <aspect.version>1.9.19</aspect.version>
         <spring.security.oauth2.version>5.6.2</spring.security.oauth2.version>
         <javax.servlet.version>4.0.1</javax.servlet.version>
@@ -206,6 +207,12 @@
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjrt</artifactId>
                 <version>${aspect.version}</version>
+            </dependency>
+            <!--map-struct-->
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

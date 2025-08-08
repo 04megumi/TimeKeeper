@@ -6,8 +6,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.timekeeper.common.data.mybatis.model.BaseModel;
 import com.timekeeper.common.security.service.BaseUserDetails;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.ArrayList;
@@ -23,6 +25,8 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("user")
+@AllArgsConstructor
+@NoArgsConstructor
 public class User extends BaseModel<User> implements BaseUserDetails {
 
     private static final long serialVersionUID = 1L;

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.timekeeper.auth.biz.user.mapper.UserMapper">
+
+    <!-- 根据用户ID查询用户 -->
+    <select id="getUserByUserId" parameterType="string" resultType="com.timekeeper.auth.api.entity.User">
+        SELECT
+        uid,
+        name,
+        name_en,
+        phone_num,
+        password,
+        openid,
+        is_deleted,
+        create_time,
+        update_time,
+        create_by,
+        update_by,
+        version
+        FROM user
+        WHERE uid = #{uid}
+    </select>
+
+    <!-- 根据英文用户名查询用户 -->
+    <select id="getUserByUserNameEn" parameterType="string" resultType="com.timekeeper.auth.api.entity.User">
+        SELECT
+            uid,
+            name,
+            name_en,
+            phone_num,
+            password,
+            openid,
+            is_deleted,
+            create_time,
+            update_time,
+            create_by,
+            update_by,
+            version
+        FROM user
+        WHERE name_en = #{userNameEn}
+          AND is_deleted = 0
+    </select>
+
+    <!-- 根据手机号查询用户 -->
+    <select id="getUserByPhoneNum" parameterType="string" resultType="com.timekeeper.auth.api.entity.User">
+        SELECT
+            uid,
+            name,
+            name_en,
+            phone_num,
+            password,
+            openid,
+            is_deleted,
+            create_time,
+            update_time,
+            create_by,
+            update_by,
+            version
+        FROM user
+        WHERE phone_num = #{phoneNum}
+          AND is_deleted = 0
+    </select>
+
+    <!-- 根据openid -->
+    <select id="getUserByOpenid" parameterType="string" resultType="com.timekeeper.auth.api.entity.User">
+        SELECT
+            uid,
+            name,
+            name_en,
+            phone_num,
+            password,
+            openid,
+            is_deleted,
+            create_time,
+            update_time,
+            create_by,
+            update_by,
+            version
+        FROM user
+        WHERE openid = #{openid}
+          AND is_deleted = 0
+    </select>
+</mapper>
