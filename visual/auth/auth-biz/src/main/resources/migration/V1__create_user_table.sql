@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS user (
     update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL COMMENT '最后更新时间',
     create_by VARCHAR(64) COMMENT '创建人UID',
     update_by VARCHAR(64) COMMENT '最后更新人UID',
-    version INT DEFAULT 0 NOT NULL COMMENT '数据版本号（用于乐观锁）',
+    version INT DEFAULT 0 NOT NULL COMMENT '数据版本号（用于乐观锁）'
 ) COMMENT='用户表：存储系统中的用户信息';
 
 CREATE UNIQUE INDEX idx_user_name_en ON user(name_en);
