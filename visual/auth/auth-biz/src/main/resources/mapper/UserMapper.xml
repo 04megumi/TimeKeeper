@@ -5,8 +5,23 @@
 
 <mapper namespace="com.timekeeper.auth.biz.user.mapper.UserMapper">
 
+    <resultMap id="UserResultMap" type="com.timekeeper.auth.api.entity.User">
+        <id property="uid" column="uid" />
+        <result property="name" column="name" />
+        <result property="nameEn" column="name_en" />
+        <result property="phoneNumber" column="phone_num" />
+        <result property="password" column="password" />
+        <result property="openId" column="openid" />
+        <result property="isDeleted" column="is_deleted" />
+        <result property="createTime" column="create_time" />
+        <result property="updateTime" column="update_time" />
+        <result property="createBy" column="create_by" />
+        <result property="updateBy" column="update_by" />
+        <result property="version" column="version" />
+    </resultMap>
+
     <!-- 根据用户ID查询用户 -->
-    <select id="getUserByUserId" parameterType="string" resultType="com.timekeeper.auth.api.entity.User">
+    <select id="getUserByUserId" parameterType="string" resultMap="UserResultMap">
         SELECT
         uid,
         name,
@@ -25,7 +40,7 @@
     </select>
 
     <!-- 根据英文用户名查询用户 -->
-    <select id="getUserByUserNameEn" parameterType="string" resultType="com.timekeeper.auth.api.entity.User">
+    <select id="getUserByUserNameEn" parameterType="string" resultMap="UserResultMap">
         SELECT
             uid,
             name,
@@ -45,7 +60,7 @@
     </select>
 
     <!-- 根据手机号查询用户 -->
-    <select id="getUserByPhoneNum" parameterType="string" resultType="com.timekeeper.auth.api.entity.User">
+    <select id="getUserByPhoneNum" parameterType="string" resultMap="UserResultMap">
         SELECT
             uid,
             name,
@@ -65,7 +80,7 @@
     </select>
 
     <!-- 根据openid -->
-    <select id="getUserByOpenid" parameterType="string" resultType="com.timekeeper.auth.api.entity.User">
+    <select id="getUserByOpenid" parameterType="string" resultMap="UserResultMap">
         SELECT
             uid,
             name,
