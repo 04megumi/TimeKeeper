@@ -13,7 +13,6 @@ import com.timekeeper.common.security.service.BaseUserDetailsService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import cn.hutool.jwt.JWT;
 import org.springframework.security.oauth2.jwt.Jwt;
