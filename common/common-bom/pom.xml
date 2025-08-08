@@ -49,6 +49,12 @@
 
     <dependencyManagement>
         <dependencies>
+            <!--common-security-->
+            <dependency>
+                <groupId>com.timekeeper</groupId>
+                <artifactId>common-security</artifactId>
+                <version>${timkekeeper.version}</version>
+            </dependency>
             <!--auth-api-->
             <dependency>
                 <groupId>com.timekeeper</groupId>

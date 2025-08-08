@@ -37,7 +37,21 @@
     <description>登录模块api</description>
 
     <dependencies>
-
+        <!-- 数据库依赖 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+        <!-- common-data -->
+        <dependency>
+            <groupId>com.timekeeper</groupId>
+            <artifactId>common-data</artifactId>
+        </dependency>
+        <!-- common-security -->
+        <dependency>
+            <groupId>com.timekeeper</groupId>
+            <artifactId>common-security</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

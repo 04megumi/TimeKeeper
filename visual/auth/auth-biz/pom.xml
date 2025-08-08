@@ -37,9 +37,57 @@
     <description>登录模块实现</description>
 
     <dependencies>
+        <!-- auth-api -->
         <dependency>
             <groupId>com.timekeeper</groupId>
             <artifactId>auth-api</artifactId>
+        </dependency>
+        <!-- springboot模块 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- common-security -->
+        <dependency>
+            <groupId>com.timekeeper</groupId>
+            <artifactId>common-security</artifactId>
+        </dependency>
+        <!-- common-data -->
+        <dependency>
+            <groupId>com.timekeeper</groupId>
+            <artifactId>common-data</artifactId>
+        </dependency>
+        <!-- 数据库依赖 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- Flyway -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+        <!-- Flyway Mysql 补丁 -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
     </dependencies>
 
