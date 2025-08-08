@@ -27,7 +27,7 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
      *
      * @return Integer
      */
-    private Integer getCurrentUserId() {
+    private String getCurrentUserId() {
         if (ObjectUtil.isNull(currentUserService)) {
             return null;
         }

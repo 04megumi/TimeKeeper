@@ -10,5 +10,5 @@ import com.timekeeper.common.data.mybatis.service.CurrentUserService;
 public class CurrentUserServiceImpl implements CurrentUserService {
 
     @Override
-    public Integer getUid() { return null; }
+    public String getUid() { return null; }
 }

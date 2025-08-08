@@ -44,13 +44,13 @@ public class BaseModel<T extends BaseModel<?>> extends Model<T> {
      * 创建人
      */
     @TableField(value = "create_by", fill = FieldFill.INSERT)
-    protected Integer createBy;
+    protected String createBy;
 
     /**
      * 修改人
      */
     @TableField(value = "update_by", fill = FieldFill.INSERT_UPDATE)
-    protected Integer updateBy;
+    protected String updateBy;
 
     /**
      * 乐观锁版本号

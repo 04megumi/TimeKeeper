@@ -12,5 +12,5 @@ public interface CurrentUserService {
      *
      * @return Integer
      */
-    Integer getUid();
+    String getUid();
 }
