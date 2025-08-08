@@ -21,7 +21,20 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtException;
 import java.util.stream.Collectors;
 
-
+/**
+ * 自定义 JWT 解码器
+ * <p>
+ * 该类实现了 Spring Security 提供的 {@link JwtDecoder} 接口，
+ * 用于在接收到客户端传递的 JWT 时进行验证、解析，并将其中的用户信息加载到 Spring Security 上下文中。
+ * <p>
+ * 核心功能：
+ * <ul>
+ *   <li>验证 JWT 签名，确保未被篡改</li>
+ *   <li>检查 Token 是否过期</li>
+ *   <li>根据 JWT 中的用户名加载数据库中的用户信息</li>
+ *   <li>将用户权限、信息等封装到 {@link Jwt} 对象返回</li>
+ * </ul>
+ */
 @Configuration
 @RequiredArgsConstructor
 @ComponentScan("com.timekeeper.common.security")
