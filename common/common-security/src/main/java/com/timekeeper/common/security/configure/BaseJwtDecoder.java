@@ -36,7 +36,6 @@ import org.springframework.security.oauth2.jwt.JwtException;
  */
 @Configuration
 @RequiredArgsConstructor
-@ComponentScan("com.timekeeper.common.security")
 public class BaseJwtDecoder implements JwtDecoder {
 
     @Value("${jwt.secret-key}")

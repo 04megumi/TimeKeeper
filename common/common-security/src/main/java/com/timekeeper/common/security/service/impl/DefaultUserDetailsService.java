@@ -19,8 +19,6 @@ import org.springframework.stereotype.Component;
  *
  * @author 魏子越
  */
-@Component
-@ConditionalOnMissingBean(BaseUserDetailsService.class)
 public class DefaultUserDetailsService implements BaseUserDetailsService {
 
     @Override
