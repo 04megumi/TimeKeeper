@@ -1,6 +1,7 @@
 package com.timekeeper.common.security.configure;
 
 import cn.hutool.json.JSONUtil;
+import com.timekeeper.common.core.constant.BusinessCodes;
 import com.timekeeper.common.core.util.R;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -39,7 +40,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         PrintWriter printWriter = response.getWriter();
 
         // 输出格式化的JSON错误信息，包含自定义错误码和异常信息
-        printWriter.print(JSONUtil.toJsonStr(R.failed(100900, exception.getMessage())));
+        printWriter.print(JSONUtil.toJsonStr(R.failed(BusinessCodes.ACCESS_DENIED, exception.getMessage())));
 
         printWriter.flush();
         printWriter.close();

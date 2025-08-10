@@ -1,6 +1,7 @@
 package com.timekeeper.common.security.configure;
 
 import cn.hutool.json.JSONUtil;
+import com.timekeeper.common.core.constant.BusinessCodes;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import com.timekeeper.common.core.util.R;
@@ -38,8 +39,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
             throws IOException, ServletException {
         PrintWriter printWriter = response.getWriter();
-        // 返回自定义的失败响应，错误码100900，消息来自异常
-        printWriter.print(JSONUtil.toJsonStr(R.failed(100900, exception.getMessage())));
+        printWriter.print(JSONUtil.toJsonStr(R.failed(BusinessCodes.UNAUTHORIZED, exception.getMessage())));
         printWriter.flush();
         printWriter.close();
     }

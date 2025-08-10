@@ -2,6 +2,7 @@ package com.timekeeper.auth.biz.user.service;
 
 import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.signers.JWTSignerUtil;
+import com.timekeeper.common.core.constant.JWTPayloadConstants;
 import org.springframework.beans.factory.annotation.Value;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -9,7 +10,7 @@ import java.util.Map;
 
 public class JwtEncoder {
 
-    //@Value("${jwt.secret-key}")
+    @Value("${jwt.secret-key}")
     private static String jwtSecretKey = "xxx";
 
     /**
@@ -20,9 +21,9 @@ public class JwtEncoder {
      */
     public static String generateToken(String userId) {
         Map<String, Object> payload = new HashMap<>();
-        payload.put("userId", userId);
-        payload.put("iat", System.currentTimeMillis() / 1000);
-        payload.put("exp", (System.currentTimeMillis() / 1000) + 3600);
+        payload.put(JWTPayloadConstants.USER_ID, userId);
+        payload.put(JWTPayloadConstants.ISSUED_AT, System.currentTimeMillis() / 1000);
+        payload.put(JWTPayloadConstants.EXPIRES_AT, (System.currentTimeMillis() / 1000) + 3600);
 
         JWT jwt = JWT.create().setSigner(JWTSignerUtil.hs256(jwtSecretKey.getBytes(StandardCharsets.UTF_8)));
 

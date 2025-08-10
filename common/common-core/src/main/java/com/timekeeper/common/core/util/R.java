@@ -1,5 +1,6 @@
 package com.timekeeper.common.core.util;
 
+import com.timekeeper.common.core.constant.BusinessCodes;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -28,18 +29,18 @@ public class R<T> implements Serializable {
     @ApiModelProperty(value = "返回数据")
     private T data;
 
-    public static <T> R<T> ok() { return restResult(100000,null,null); }
+    public static <T> R<T> ok() { return restResult(BusinessCodes.COMMON_SUCCESS,null,null); }
     public static <T> R<T> ok(T data) {
-        return restResult(100000, null, data);
+        return restResult(BusinessCodes.COMMON_SUCCESS, null, data);
     }
     public static <T> R<T> ok(T data, String msg) {
-        return restResult(100000, msg, data);
+        return restResult(BusinessCodes.COMMON_SUCCESS, msg, data);
     }
     public static <T> R<T> failed() {
-        return restResult(100900, null, null);
+        return restResult(BusinessCodes.COMMON_ERROR, null, null);
     }
     public static <T> R<T> failed(String msg) {
-        return restResult(100900, msg,null);
+        return restResult(BusinessCodes.COMMON_ERROR, msg,null);
     }
     public static <T> R<T> failed(int code) {
         return restResult(code, null, null);
@@ -51,7 +52,7 @@ public class R<T> implements Serializable {
         return restResult(code, msg, data);
     }
     public static <T> R<T> failed(T data) {
-        return restResult(100900, null, null);
+        return restResult(BusinessCodes.COMMON_ERROR, null, null);
     }
 
     private static <T> R<T> restResult(int code, String msg, T data) {

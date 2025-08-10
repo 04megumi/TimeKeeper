@@ -1,6 +1,7 @@
 package com.timekeeper.auth.biz.handler;
 
 import com.timekeeper.auth.api.exception.AuthException;
+import com.timekeeper.common.core.constant.BusinessCodes;
 import com.timekeeper.common.core.util.R;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -25,6 +26,6 @@ public class AuthExceptionHandler {
      */
     @ExceptionHandler(AuthException.class)
     public R<?> handleAuthException(AuthException e) {
-        return R.failed(e.getCode(), e.getMessage());
+        return R.failed(BusinessCodes.AUTH_ERROR, e.getMessage());
     }
 }

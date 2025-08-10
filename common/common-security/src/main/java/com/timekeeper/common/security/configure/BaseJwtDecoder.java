@@ -45,7 +45,16 @@ public class BaseJwtDecoder implements JwtDecoder {
 
     @Override
     public Jwt decode(String token) throws JwtException {
-        JWT jwt = JWTUtil.parseToken(token);
+        if (StrUtil.isBlank(token) || !token.contains(".")) {
+            throw new UnauthorizedException("token format is invalid!");
+        }
+
+        JWT jwt;
+        try {
+            jwt = JWTUtil.parseToken(token);
+        } catch (Exception e) {
+            throw new UnauthorizedException("token parse failed!");
+        }
 
         // token是否被串改
         if (!JWTUtil.verify(token, getJwtSecretKey(jwt).getBytes())) {
