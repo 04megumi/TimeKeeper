@@ -1,13 +1,11 @@
 package com.timekeeper.auth.biz.controller;
 
-import com.timekeeper.auth.api.dto.LoginRequest;
 import com.timekeeper.auth.api.dto.impl.AccountLoginDTO;
 import com.timekeeper.auth.api.dto.impl.PhoneLoginDTO;
 import com.timekeeper.auth.api.dto.impl.WechatMpAppLoginDTO;
 import com.timekeeper.auth.biz.constant.Platform;
 import com.timekeeper.auth.biz.user.service.AuthUserDetailsService;
 import com.timekeeper.common.core.util.R;
-import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,6 +32,7 @@ public class RegisterController {
      * 请求体示例:
      * {
      *   "openid": "微信小程序登录凭证 code，前端 wx.login() 获取"
+     *   "userName": "学生姓名"
      * }
      * <p>
      * 返回:

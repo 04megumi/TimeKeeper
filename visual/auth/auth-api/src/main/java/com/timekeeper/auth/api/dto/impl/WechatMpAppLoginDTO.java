@@ -32,4 +32,6 @@ public class WechatMpAppLoginDTO implements LoginRequest {
      */
     @NonNull
     private String openid;
+
+    private String userName;
 }

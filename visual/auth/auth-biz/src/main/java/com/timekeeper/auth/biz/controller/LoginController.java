@@ -1,6 +1,5 @@
 package com.timekeeper.auth.biz.controller;
 
-import com.timekeeper.auth.api.dto.LoginRequest;
 import com.timekeeper.auth.api.dto.impl.AccountLoginDTO;
 import com.timekeeper.auth.api.dto.impl.PhoneLoginDTO;
 import com.timekeeper.auth.api.dto.impl.WechatMpAppLoginDTO;
@@ -9,7 +8,6 @@ import com.timekeeper.auth.biz.constant.Platform;
 import com.timekeeper.auth.biz.converter.TokenConverter;
 import com.timekeeper.auth.biz.user.service.AuthUserDetailsService;
 import com.timekeeper.common.core.util.R;
-import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

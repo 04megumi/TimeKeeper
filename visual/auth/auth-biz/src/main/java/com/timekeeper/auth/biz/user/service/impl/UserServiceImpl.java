@@ -247,10 +247,12 @@ public class UserServiceImpl implements AuthUserDetailsService {
         if (ObjectUtil.isNull(user)) {
             User newUser = new User();
             newUser.setOpenId(loginRequest.getOpenid());
+            newUser.setName(loginRequest.getUserName());
             userMapper.insert(newUser);
             return;
         }
         user.setIsDeleted(0);
+        user.setName(loginRequest.getUserName());
         userMapper.updateById(user);
     }
 
