@@ -3,7 +3,9 @@ package com.timekeeper.auth.biz.controller;
 import com.timekeeper.auth.api.dto.impl.AccountLoginDTO;
 import com.timekeeper.auth.api.dto.impl.PhoneLoginDTO;
 import com.timekeeper.auth.api.dto.impl.WechatMpAppLoginDTO;
+import com.timekeeper.auth.api.vo.Token;
 import com.timekeeper.auth.biz.constant.Platform;
+import com.timekeeper.auth.biz.converter.TokenConverter;
 import com.timekeeper.auth.biz.user.service.AuthUserDetailsService;
 import com.timekeeper.common.core.util.R;
 import lombok.NonNull;
@@ -34,12 +36,14 @@ public class RegisterController {
      *   "openid": "微信小程序登录凭证 code，前端 wx.login() 获取"
      *   "userName": "学生姓名"
      * }
-     * <p>
+     * </p>
      * 返回:
      * 成功：
      * {
      *   "code": 100000,
-     *   "data": null,
+     *   "data": {
+     *     "token": "JWT字符串"
+     *   },
      *   "msg": "success"
      * }
      * <p>
@@ -52,9 +56,9 @@ public class RegisterController {
      * </p>
      */
     @PostMapping(value = "/wx")
-    public R<Object> registerWX(@NonNull @RequestBody WechatMpAppLoginDTO loginRequest) {
+    public R<Token> registerWX(@NonNull @RequestBody WechatMpAppLoginDTO loginRequest) {
         userServiceImpl.register(Platform.WX, loginRequest);
-        return R.ok();
+        return R.ok(TokenConverter.INSTANCE.toToken(userServiceImpl.login(Platform.WX, loginRequest)));
     }
 
     /**
