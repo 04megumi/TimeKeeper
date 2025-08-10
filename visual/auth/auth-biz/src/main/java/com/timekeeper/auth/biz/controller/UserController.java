@@ -26,7 +26,7 @@ public class UserController {
      * <h3>返回数据格式</h3>
      * <pre>
      * {
-     *   "code": 0,
+     *   "code": 100000,
      *   "msg": "success",
      *   "data": {
      *     "name": "张三",      // 小程序端使用此字段作为展示名
