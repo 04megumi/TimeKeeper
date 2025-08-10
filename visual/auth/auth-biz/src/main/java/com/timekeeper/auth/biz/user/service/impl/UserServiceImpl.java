@@ -240,6 +240,10 @@ public class UserServiceImpl implements AuthUserDetailsService {
      * @throws AuthException 账号已存在时抛出异常
      */
     private void register(WechatMpAppLoginDTO loginRequest) {
+        if (ObjectUtil.isNull(loginRequest.getOpenid()) || ObjectUtil.isNull(loginRequest.getOpenid())) {
+            throw new AuthException("校验参数");
+        }
+
         User user = userMapper.getUserByOpenid(loginRequest.getOpenid());
         if (ObjectUtil.isNotNull(user) && user.isActive()) {
             throw new AuthException("账号已存在 ID：" + user.getOpenId());
@@ -270,6 +274,10 @@ public class UserServiceImpl implements AuthUserDetailsService {
      * @throws AuthException 账号已存在时抛出异常
      */
     private void register(PhoneLoginDTO loginRequest) {
+        if (ObjectUtil.isNull(loginRequest.getPhoneNum()) || ObjectUtil.isNull(loginRequest.getPhoneNum())) {
+            throw new AuthException("校验参数");
+        }
+
         User user = userMapper.getUserByPhoneNum(loginRequest.getPhoneNum());
         if (ObjectUtil.isNotNull(user) && user.isActive()) {
             throw new AuthException("账号已存在 PhoneNumber：" + user.getPhoneNumber());
@@ -300,6 +308,10 @@ public class UserServiceImpl implements AuthUserDetailsService {
      * @throws AuthException 账号已存在时抛出异常
      */
     private void register(AccountLoginDTO loginRequest) {
+        if (ObjectUtil.isNull(loginRequest.getUserNameEn()) || ObjectUtil.isNull(loginRequest.getPassword())) {
+            throw new AuthException("校验参数");
+        }
+
         User user = userMapper.getUserByUserNameEn(loginRequest.getUserNameEn());
         if (ObjectUtil.isNotNull(user) && user.isActive()) {
             throw new AuthException("账号已存在 ：" + user.getUserNameEn());
