@@ -23,6 +23,60 @@ mybatis-plus:
         show-sql: true          # 是否打印 SQL（默认 true）
 ```
 
+## 额外配置：审计字段自动注入
+
+为了支持 **创建人 / 更新人等审计字段的自动填充**，需要实现一个自定义的 `CurrentUserService` Bean，用于获取当前登录用户 ID。  
+
+MyBatis-Plus 的 `MetaObjectHandler` 在填充字段时会调用该服务来获取用户信息，从而自动写入数据库审计字段。
+
+### 1. 接口定义
+```java
+package com.timekeeper.common.data.mybatis.service;
+
+**
+ * 获取当前用户服务
+ *
+ * @author 魏子越
+ */
+public interface CurrentUserService {
+
+    /**
+     * 获取当前登录用户ID
+     *
+     * @return String 用户ID
+     */
+    String getUid();
+}
+```
+
+### 2. 示例实现  
+可在 `common` 模块或业务模块中提供一个实现类，例如通过 Spring Security、JWT 或 ThreadLocal 获取用户信息。
+```java
+package com.timekeeper.common.data.mybatis.service.impl;
+
+import com.timekeeper.common.data.mybatis.service.CurrentUserService;
+import org.springframework.stereotype.Service;
+
+**
+ * 基于 Spring Security 获取当前用户
+ */
+@Service
+public class CurrentUserServiceImpl implements CurrentUserService {
+
+    @Override
+    public String getUid() {
+        // 示例：从 SecurityContextHolder 获取
+        // return SecurityContextHolder.getContext().getAuthentication().getName();
+
+        // 示例：从 ThreadLocal 或 JWT 获取
+        // return UserContext.getCurrentUserId();
+
+        // 临时写死，方便本地调试
+        return "admin";
+    }
+}
+```
+
 #### ✅ 分页插件
 
 分页插件始终启用，无需额外配置：
