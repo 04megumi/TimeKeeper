@@ -1,10 +1,13 @@
 package com.timekeeper.auth.biz.controller;
 
+import com.timekeeper.auth.api.dto.OpenId;
 import com.timekeeper.auth.api.dto.impl.AccountLoginDTO;
 import com.timekeeper.auth.api.dto.impl.PhoneLoginDTO;
 import com.timekeeper.auth.api.dto.impl.WechatMpAppLoginDTO;
+import com.timekeeper.auth.api.vo.ChildrenList;
 import com.timekeeper.auth.api.vo.Token;
 import com.timekeeper.auth.biz.constant.Platform;
+import com.timekeeper.auth.biz.converter.ToChildrenList;
 import com.timekeeper.auth.biz.converter.TokenConverter;
 import com.timekeeper.auth.biz.user.service.AuthUserDetailsService;
 import com.timekeeper.common.core.util.R;
@@ -135,4 +138,35 @@ public class LoginController {
     public R<Token> loginPhone(@NonNull @RequestBody PhoneLoginDTO loginRequest) {
         return R.ok(TokenConverter.INSTANCE.toToken(userServiceImpl.login(Platform.PHONE, loginRequest)));
     }
+
+    /**
+     * 根据用户的 OpenId 获取其子节点名称列表。
+     * 接口 URL: POST /login/childrenNames
+     * <p>
+     * 请求体示例:
+     * <pre>
+     * {
+     *   "openId": "用户的OpenId字符串"
+     * }
+     * </pre>
+     * <p>
+     * 返回结果:
+     * <p>
+     * 成功:
+     * <pre>
+     * {
+     *   "code": 100000,
+     *   "data": {
+     *     "childrenNames": ["子节点名称1", "子节点名称2", "..."]
+     *   },
+     *   "msg": "success"
+     * }
+     * </pre>
+     * <p>
+     *
+     * @param openId 请求体中包含的用户 OpenId，不能为空
+     * @return 返回包含子节点名称列表的统一响应体 R<ChildrenList>
+     */
+    @PostMapping(value = "/childrenNames")
+    public R<ChildrenList> getChildrenNames(@RequestBody @NonNull OpenId openId) { return R.ok(ToChildrenList.INSTANCE.toChildrenList(userServiceImpl.getChildrenNames(openId))); }
 }

@@ -1,9 +1,12 @@
 package com.timekeeper.auth.biz.user.service;
 
 import com.timekeeper.auth.api.dto.LoginRequest;
+import com.timekeeper.auth.api.dto.OpenId;
 import com.timekeeper.auth.api.exception.AuthException;
 import com.timekeeper.auth.biz.constant.Platform;
 import com.timekeeper.common.security.service.BaseUserDetailsService;
+
+import java.util.List;
 
 /**
  * 用户认证服务接口
@@ -32,4 +35,13 @@ public interface AuthUserDetailsService extends BaseUserDetailsService {
      * @throws AuthException 当注册失败（例如用户已存在）时抛出异常
      */
     void register(Platform platform, LoginRequest loginRequest);
+
+    /**
+     * 根据给定的 OpenId 查询对应用户的子节点名称列表。
+     *
+     * @param openid 包含用户唯一标识的 OpenId 对象
+     * @return 返回该用户所有子节点的名称列表；如果没有子节点则返回空列表
+     * @throws AuthException 当参数无效或查询失败时抛出
+     */
+    List<String> getChildrenNames(OpenId openid);
 }

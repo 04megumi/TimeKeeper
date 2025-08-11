@@ -3,6 +3,7 @@ package com.timekeeper.auth.biz.user.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.timekeeper.auth.api.dto.LoginRequest;
+import com.timekeeper.auth.api.dto.OpenId;
 import com.timekeeper.auth.api.dto.impl.AccountLoginDTO;
 import com.timekeeper.auth.api.dto.impl.PhoneLoginDTO;
 import com.timekeeper.auth.api.dto.impl.WechatMpAppLoginDTO;
@@ -18,6 +19,10 @@ import lombok.NonNull;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 用户服务实现类
@@ -375,6 +380,36 @@ public class UserServiceImpl implements AuthUserDetailsService {
             userMapper.updateById(user);
         } catch (Exception e) {
             throw new AuthException("注册异常::ACCOUNT::" + e.getMessage());
+        }
+    }
+
+    /**
+     * 根据给定的 OpenId 查询对应的用户列表，并返回这些用户的名字列表。
+     *
+     * @param openId 包含要查询的 openId 字段的对象
+     * @return 返回查询到的用户名字列表；如果没有匹配的用户，返回空列表
+     * @throws AuthException 当参数校验失败或查询过程中发生异常时抛出
+     */
+    @Override
+    public List<String> getChildrenNames(OpenId openId) {
+        try {
+            if (ObjectUtil.isNull(openId) || ObjectUtil.isNull(openId.getOpenId())) {
+                throw new AuthException("参数校验");
+            }
+
+            QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("openid", openId.getOpenId());
+            List<User> children = userMapper.selectList(queryWrapper);
+
+            if (ObjectUtil.isNull(children)) {
+                return new ArrayList<>();
+            }
+
+            return children.stream()
+                    .map(User::getName)
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new AuthException("GET_CHILDREN_NAMES::" + e.getMessage());
         }
     }
 }
