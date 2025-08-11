@@ -3,7 +3,6 @@ package com.timekeeper.auth.biz.user.service;
 import com.timekeeper.auth.api.dto.LoginRequest;
 import com.timekeeper.auth.api.exception.AuthException;
 import com.timekeeper.auth.biz.constant.Platform;
-import com.timekeeper.common.security.service.BaseUserDetails;
 import com.timekeeper.common.security.service.BaseUserDetailsService;
 
 /**
@@ -30,7 +29,6 @@ public interface AuthUserDetailsService extends BaseUserDetailsService {
      *
      * @param platform     注册的平台枚举（如微信、手机号、用户名等）
      * @param loginRequest 注册请求参数，包含注册所需信息
-     * @return 注册成功后返回的用户详情对象
      * @throws AuthException 当注册失败（例如用户已存在）时抛出异常
      */
     void register(Platform platform, LoginRequest loginRequest);

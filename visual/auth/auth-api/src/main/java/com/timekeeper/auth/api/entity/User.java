@@ -11,10 +11,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * 用户表实体
@@ -68,6 +65,16 @@ public class User extends BaseModel<User> implements BaseUserDetails {
     @TableField(value = "openid")
     private String openId;
 
+    /**
+     * 用户角色标识
+     * <p>
+     * 其值固定取自 {@link com.timekeeper.common.core.constant.RoleConstants}：
+     * 用于权限控制、数据过滤等业务逻辑。
+     * </p>
+     */
+    @TableField(value = "role")
+    private String role;
+
     @Override
     public String getId() { return uid; }
 
@@ -81,13 +88,15 @@ public class User extends BaseModel<User> implements BaseUserDetails {
     public List<String> getPermissionIds() { return new ArrayList<>(); }
 
     @Override
-    public List<String> getRoleIds() { return new ArrayList<>(); }
+    public List<String> getRoleIds() {
+        return Collections.singletonList(this.role);
+    }
 
     @Override
     public boolean isRoot() { return false; }
 
     @Override
-    public boolean hasRole(String... roleIds) { return false; }
+    public boolean hasRole(String... roleIds) { return roleIds != null && roleIds.length > 0 && Objects.equals(this.role, roleIds[0]); }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

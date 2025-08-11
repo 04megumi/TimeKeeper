@@ -12,6 +12,7 @@ import com.timekeeper.auth.biz.constant.Platform;
 import com.timekeeper.auth.biz.user.mapper.UserMapper;
 import com.timekeeper.auth.biz.user.service.AuthUserDetailsService;
 import com.timekeeper.auth.biz.user.service.JwtEncoder;
+import com.timekeeper.common.core.constant.RoleConstants;
 import com.timekeeper.common.security.service.BaseUserDetails;
 import lombok.NonNull;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -46,35 +47,41 @@ public class UserServiceImpl implements AuthUserDetailsService {
      *
      * @param uid 用户唯一标识（ID）
      * @return 用户详情对象，需实现 BaseUserDetails 接口
-     * @throws UsernameNotFoundException 如果用户不存在则抛出异常
+     * @throws AuthException 如果用户不存在则抛出异常
      */
     @Override
     public BaseUserDetails loadUserByUid(String uid) {
-        User user = userMapper.selectById(uid);
-        if (ObjectUtil.isNull(user)) {
-            throw new AuthException("用户不存在，ID：" + uid);
+        try {
+            User user = userMapper.selectById(uid);
+            if (ObjectUtil.isNull(user)) {
+                throw new AuthException("用户不存在，ID: " + uid);
+            }
+            return user;
+        } catch (Exception e) {
+            throw new AuthException("LoadUserByUid::" + e.getMessage());
         }
-        return user;
     }
 
     /**
      * 根据用户名加载用户详情
      *
-     * @param username 用户名
+     * @param usernameEn 用户名英文
      * @return 用户详情对象，需实现 BaseUserDetails 接口
-     * @throws UsernameNotFoundException 如果用户名对应的用户不存在则抛出异常
+     * @throws AuthException 如果用户名对应的用户不存在则抛出异常
      */
-    public BaseUserDetails loadUserByUsername(String username) {
-        QueryWrapper<User> query = new QueryWrapper<>();
-        query.eq("name_en", username);
-
-        User user = userMapper.selectOne(query);
-
-        // 判断用户是否存在或主键ID是否为空
-        if (ObjectUtil.isNull(user) || ObjectUtil.isNull(user.getId())) {
-            throw new AuthException("用户不存在：" + username);
+    public BaseUserDetails loadUserByUsername(String usernameEn) {
+        try {
+            QueryWrapper<User> query = new QueryWrapper<>();
+            query.eq("name_en", usernameEn);
+            User user = userMapper.selectOne(query);
+            // 判断用户是否存在或主键ID是否为空
+            if (ObjectUtil.isNull(user) || ObjectUtil.isNull(user.getId())) {
+                throw new AuthException("用户不存在：" + usernameEn);
+            }
+            return user;
+        } catch (Exception e) {
+            throw new AuthException("LoadUserByUsername::" + e.getMessage());
         }
-        return user;
     }
 
     /**
@@ -82,37 +89,45 @@ public class UserServiceImpl implements AuthUserDetailsService {
      *
      * @param phoneNumber 用户手机号
      * @return 用户详情对象，需实现 BaseUserDetails 接口
-     * @throws UsernameNotFoundException 如果手机号对应的用户不存在则抛出异常
+     * @throws AuthException 如果手机号对应的用户不存在则抛出异常
      */
     public BaseUserDetails loadUserByPhoneNumber(String phoneNumber) {
-        QueryWrapper<User> query = new QueryWrapper<>();
-        query.eq("phone_num", phoneNumber);
+        try {
+            QueryWrapper<User> query = new QueryWrapper<>();
+            query.eq("phone_num", phoneNumber);
+            User user = userMapper.selectOne(query);
 
-        User user = userMapper.selectOne(query);
-
-        if (ObjectUtil.isNull(user) || ObjectUtil.isNull(user.getId())) {
-            throw new AuthException("用户不存在，手机号：" + phoneNumber);
+            if (ObjectUtil.isNull(user) || ObjectUtil.isNull(user.getId())) {
+                throw new AuthException("用户不存在，手机号：" + phoneNumber);
+            }
+            return user;
+        } catch (Exception e) {
+            throw new AuthException("LoadUserByPhoneNumber::" + e.getMessage());
         }
-        return user;
     }
 
     /**
-     * 根据 OpenID 加载用户详情
+     * 根据 OpenID, username 加载用户详情
+     * 注意一个家长可能有多个孩子, 所以需要联合唯一索引 (openid, username)
      *
-     * @param openId 用户的第三方登录唯一标识 OpenID
+     * @param openId 用户的第三方登录唯一标识 OpenID,
+     * @param username 学生名
      * @return 用户详情对象，需实现 BaseUserDetails 接口
-     * @throws UsernameNotFoundException 如果 OpenID 对应的用户不存在则抛出异常
+     * @throws AuthException 如果 OpenID 对应的用户不存在则抛出异常
      */
-    public BaseUserDetails loadUserByOpenId(String openId) {
-        QueryWrapper<User> query = new QueryWrapper<>();
-        query.eq("openid", openId);
-
-        User user = userMapper.selectOne(query);
-
-        if (ObjectUtil.isNull(user) || ObjectUtil.isNull(user.getId())) {
-            throw new AuthException("用户不存在，OpenID：" + openId);
+    public BaseUserDetails loadUserByOpenIdUserName(String openId, String username) {
+        try {
+            QueryWrapper<User> query = new QueryWrapper<>();
+            query.eq("openid", openId);
+            query.eq("name", username);
+            User user = userMapper.selectOne(query);
+            if (ObjectUtil.isNull(user) || ObjectUtil.isNull(user.getId())) {
+                throw new AuthException("用户不存在，OpenID：" + openId);
+            }
+            return user;
+        } catch (Exception e) {
+            throw new AuthException("LoadUserByOpenIdUserName::" + e.getMessage());
         }
-        return user;
     }
 
     /**
@@ -155,11 +170,20 @@ public class UserServiceImpl implements AuthUserDetailsService {
      * @return 登录或注册成功的用户详情
      */
     private BaseUserDetails login(WechatMpAppLoginDTO loginRequest) {
-        BaseUserDetails user = this.loadUserByOpenId(loginRequest.getOpenid());
-        if (ObjectUtil.isNull(user)) {
-            register(loginRequest);
+        try {
+            if (ObjectUtil.isNull(loginRequest.getOpenid()) || ObjectUtil.isNull(loginRequest.getOpenid())) {
+                throw new AuthException("校验参数");
+            }
+            BaseUserDetails user = this.loadUserByOpenIdUserName(loginRequest.getOpenid(), loginRequest.getUserName());
+            // 小程序端 需要注册即登录
+            if (ObjectUtil.isNull(user)) {
+                register(loginRequest);
+            }
+            // fix: 这里需要重新查询
+            return this.loadUserByOpenIdUserName(loginRequest.getOpenid(), loginRequest.getUserName());
+        } catch (Exception e) {
+            throw new AuthException("登录异常::WX::" + e.getMessage());
         }
-        return user;
     }
 
     /**
@@ -170,11 +194,15 @@ public class UserServiceImpl implements AuthUserDetailsService {
      * @throws AuthException 密码错误或用户不存在时抛出
      */
     private BaseUserDetails login(PhoneLoginDTO loginRequest) {
-        BaseUserDetails user = loadUserByPhoneNumber(loginRequest.getPhoneNum());
-        if (!encoder.matches(loginRequest.getPassword(), user.getPassword())) {
-            throw new AuthException("账号名或密码错误");
+        try {
+            BaseUserDetails user = loadUserByPhoneNumber(loginRequest.getPhoneNum());
+            if (ObjectUtil.isNull(user) || !encoder.matches(loginRequest.getPassword(), user.getPassword())) {
+                throw new AuthException("账号名或密码错误");
+            }
+            return user;
+        } catch (Exception e) {
+            throw new AuthException("登录异常::PHONE::" + e.getMessage());
         }
-        return user;
     }
 
     /**
@@ -185,11 +213,15 @@ public class UserServiceImpl implements AuthUserDetailsService {
      * @throws AuthException 密码错误或用户不存在时抛出
      */
     private BaseUserDetails login(AccountLoginDTO loginRequest) {
-        BaseUserDetails user = loadUserByUsername(loginRequest.getUserNameEn());
-        if (!encoder.matches(loginRequest.getPassword(), user.getPassword())) {
-            throw new AuthException("账号名或密码错误");
+        try {
+            BaseUserDetails user = loadUserByUsername(loginRequest.getUserNameEn());
+            if (ObjectUtil.isNull(user) || !encoder.matches(loginRequest.getPassword(), user.getPassword())) {
+                throw new AuthException("账号名或密码错误");
+            }
+            return user;
+        } catch (Exception e) {
+            throw new AuthException("登录异常::ACCOUNT::" + e.getMessage());
         }
-        return user;
     }
 
     /**
@@ -204,27 +236,27 @@ public class UserServiceImpl implements AuthUserDetailsService {
         switch (platform) {
             case WX:
                 if (!(loginRequest instanceof WechatMpAppLoginDTO)) {
-                    throw new AuthException("无效的注册请求类型");
+                    throw new AuthException("注册异常::无效的注册请求类型");
                 }
                 register((WechatMpAppLoginDTO) loginRequest);
                 break;
 
             case PHONE:
                 if (!(loginRequest instanceof PhoneLoginDTO)) {
-                    throw new AuthException("无效的注册请求类型");
+                    throw new AuthException("注册异常::无效的注册请求类型");
                 }
                 register((PhoneLoginDTO) loginRequest);
                 break;
 
             case NAME:
                 if (!(loginRequest instanceof AccountLoginDTO)) {
-                    throw new AuthException("无效的注册请求类型");
+                    throw new AuthException("注册异常::无效的注册请求类型");
                 }
                 register((AccountLoginDTO) loginRequest);
                 break;
 
             default:
-                throw new AuthException("未知登录平台");
+                throw new AuthException("注册异常::未知登录平台");
         }
     }
 
@@ -240,24 +272,30 @@ public class UserServiceImpl implements AuthUserDetailsService {
      * @throws AuthException 账号已存在时抛出异常
      */
     private void register(WechatMpAppLoginDTO loginRequest) {
-        if (ObjectUtil.isNull(loginRequest.getOpenid()) || ObjectUtil.isNull(loginRequest.getOpenid())) {
-            throw new AuthException("校验参数");
-        }
+        try {
+            if (ObjectUtil.isNull(loginRequest.getOpenid()) || ObjectUtil.isNull(loginRequest.getOpenid())) {
+                throw new AuthException("校验参数");
+            }
 
-        User user = userMapper.getUserByOpenid(loginRequest.getOpenid());
-        if (ObjectUtil.isNotNull(user) && user.isActive()) {
-            throw new AuthException("账号已存在 ID：" + user.getOpenId());
+            User user = userMapper.getUserByOpenidUserName(loginRequest.getOpenid(), loginRequest.getUserName());
+            if (ObjectUtil.isNotNull(user) && user.isActive()) {
+                throw new AuthException("账号已存在: " + user.getOpenId() + "+" + user.getName());
+            }
+            if (ObjectUtil.isNull(user)) {
+                User newUser = new User();
+                newUser.setOpenId(loginRequest.getOpenid());
+                newUser.setName(loginRequest.getUserName());
+                newUser.setRole(RoleConstants.STUDENT);
+                userMapper.insert(newUser);
+                return;
+            }
+            user.setIsDeleted(0);
+            user.setName(loginRequest.getUserName());
+            user.setRole(RoleConstants.STUDENT);
+            userMapper.updateById(user);
+        } catch (Exception e) {
+            throw new AuthException("注册异常::WX::" + e.getMessage());
         }
-        if (ObjectUtil.isNull(user)) {
-            User newUser = new User();
-            newUser.setOpenId(loginRequest.getOpenid());
-            newUser.setName(loginRequest.getUserName());
-            userMapper.insert(newUser);
-            return;
-        }
-        user.setIsDeleted(0);
-        user.setName(loginRequest.getUserName());
-        userMapper.updateById(user);
     }
 
     /**
@@ -274,24 +312,30 @@ public class UserServiceImpl implements AuthUserDetailsService {
      * @throws AuthException 账号已存在时抛出异常
      */
     private void register(PhoneLoginDTO loginRequest) {
-        if (ObjectUtil.isNull(loginRequest.getPhoneNum()) || ObjectUtil.isNull(loginRequest.getPhoneNum())) {
-            throw new AuthException("校验参数");
-        }
+        try {
+            if (ObjectUtil.isNull(loginRequest.getPhoneNum()) || ObjectUtil.isNull(loginRequest.getPhoneNum())) {
+                throw new AuthException("校验参数");
+            }
 
-        User user = userMapper.getUserByPhoneNum(loginRequest.getPhoneNum());
-        if (ObjectUtil.isNotNull(user) && user.isActive()) {
-            throw new AuthException("账号已存在 PhoneNumber：" + user.getPhoneNumber());
+            User user = userMapper.getUserByPhoneNum(loginRequest.getPhoneNum());
+            if (ObjectUtil.isNotNull(user) && user.isActive()) {
+                throw new AuthException("账号已存在: " + user.getPhoneNumber());
+            }
+            if (ObjectUtil.isNull(user)) {
+                User newUser = new User();
+                newUser.setPhoneNumber(loginRequest.getPhoneNum());
+                newUser.setPassword(encoder.encode(loginRequest.getPassword()));
+                newUser.setRole(RoleConstants.STUDENT);
+                userMapper.insert(newUser);
+                return;
+            }
+            user.setIsDeleted(0);
+            user.setPassword(encoder.encode(loginRequest.getPassword()));
+            user.setRole(RoleConstants.STUDENT);
+            userMapper.updateById(user);
+        } catch (Exception e) {
+            throw new AuthException("注册异常::PHONE::" + e.getMessage());
         }
-        if (ObjectUtil.isNull(user)) {
-            User newUser = new User();
-            newUser.setPhoneNumber(loginRequest.getPhoneNum());
-            newUser.setPassword(encoder.encode(loginRequest.getPassword()));
-            userMapper.insert(newUser);
-            return;
-        }
-        user.setIsDeleted(0);
-        user.setPassword(encoder.encode(loginRequest.getPassword()));
-        userMapper.updateById(user);
     }
 
     /**
@@ -308,23 +352,29 @@ public class UserServiceImpl implements AuthUserDetailsService {
      * @throws AuthException 账号已存在时抛出异常
      */
     private void register(AccountLoginDTO loginRequest) {
-        if (ObjectUtil.isNull(loginRequest.getUserNameEn()) || ObjectUtil.isNull(loginRequest.getPassword())) {
-            throw new AuthException("校验参数");
-        }
+        try {
+            if (ObjectUtil.isNull(loginRequest.getUserNameEn()) || ObjectUtil.isNull(loginRequest.getPassword())) {
+                throw new AuthException("校验参数");
+            }
 
-        User user = userMapper.getUserByUserNameEn(loginRequest.getUserNameEn());
-        if (ObjectUtil.isNotNull(user) && user.isActive()) {
-            throw new AuthException("账号已存在 ：" + user.getUserNameEn());
+            User user = userMapper.getUserByUserNameEn(loginRequest.getUserNameEn());
+            if (ObjectUtil.isNotNull(user) && user.isActive()) {
+                throw new AuthException("账号已存在: " + user.getUserNameEn());
+            }
+            if (ObjectUtil.isNull(user)) {
+                User newUser = new User();
+                newUser.setNameEn(loginRequest.getUserNameEn());
+                newUser.setPassword(encoder.encode(loginRequest.getPassword()));
+                newUser.setRole(RoleConstants.STUDENT);
+                userMapper.insert(newUser);
+                return;
+            }
+            user.setIsDeleted(0);
+            user.setPassword(encoder.encode(loginRequest.getPassword()));
+            user.setRole(RoleConstants.STUDENT);
+            userMapper.updateById(user);
+        } catch (Exception e) {
+            throw new AuthException("注册异常::ACCOUNT::" + e.getMessage());
         }
-        if (ObjectUtil.isNull(user)) {
-            User newUser = new User();
-            newUser.setNameEn(loginRequest.getUserNameEn());
-            newUser.setPassword(encoder.encode(loginRequest.getPassword()));
-            userMapper.insert(newUser);
-            return;
-        }
-        user.setIsDeleted(0);
-        user.setPassword(encoder.encode(loginRequest.getPassword()));
-        userMapper.updateById(user);
     }
 }

@@ -26,4 +26,9 @@ public class MeVO {
      * 用户英文名（系统唯一标识用）
      */
     private String nameEn;
+
+    /**
+     * 用户角色标识
+     */
+    private String role;
 }

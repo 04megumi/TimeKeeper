@@ -12,6 +12,7 @@
         <result property="phoneNumber" column="phone_num" />
         <result property="password" column="password" />
         <result property="openId" column="openid" />
+        <result property="role" column="role" />
         <result property="isDeleted" column="is_deleted" />
         <result property="createTime" column="create_time" />
         <result property="updateTime" column="update_time" />
@@ -29,6 +30,7 @@
         phone_num,
         password,
         openid,
+        role,
         is_deleted,
         create_time,
         update_time,
@@ -48,6 +50,7 @@
             phone_num,
             password,
             openid,
+            role,
             is_deleted,
             create_time,
             update_time,
@@ -68,6 +71,7 @@
             phone_num,
             password,
             openid,
+            role,
             is_deleted,
             create_time,
             update_time,
@@ -80,7 +84,7 @@
     </select>
 
     <!-- 根据openid -->
-    <select id="getUserByOpenid" parameterType="string" resultMap="UserResultMap">
+    <select id="getUserByOpenidUserName" parameterType="string" resultMap="UserResultMap">
         SELECT
             uid,
             name,
@@ -96,6 +100,7 @@
             version
         FROM user
         WHERE openid = #{openid}
+          AND name = #{userName}
           AND is_deleted = 0
     </select>
 </mapper>

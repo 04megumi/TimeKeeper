@@ -3,6 +3,7 @@ package com.timekeeper.auth.biz.user.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.timekeeper.auth.api.entity.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 用户表数据访问层接口
@@ -21,5 +22,5 @@ public interface UserMapper extends BaseMapper<User> {
 
     User getUserByPhoneNum(String phoneNum);
 
-    User getUserByOpenid(String openid);
+    User getUserByOpenidUserName(@Param("openid") String openid, @Param("userName") String userName);
 }
