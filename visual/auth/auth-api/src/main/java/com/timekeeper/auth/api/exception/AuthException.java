@@ -1,6 +1,8 @@
 package com.timekeeper.auth.api.exception;
 
+import com.timekeeper.common.core.constant.BusinessCodes;
 import com.timekeeper.common.core.exception.BusinessException;
+import lombok.Getter;
 
 /**
  * 认证相关业务异常类
@@ -15,10 +17,11 @@ import com.timekeeper.common.core.exception.BusinessException;
  *
  * @author 魏子越
  */
+@Getter
 public class AuthException extends BusinessException {
 
     /**
-     * 认证异常错误码，固定值 100901
+     * 认证异常错误
      */
     private final int code;
 
@@ -28,14 +31,7 @@ public class AuthException extends BusinessException {
      */
     public AuthException(String message) {
         super(message);
-        this.code = 100901;
+        this.code = BusinessCodes.AUTH_ERROR;
     }
 
-    /**
-     * 获取认证异常错误码
-     * @return 错误码
-     */
-    public int getCode() {
-        return code;
-    }
 }

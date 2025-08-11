@@ -26,6 +26,6 @@ public class AuthExceptionHandler {
      */
     @ExceptionHandler(AuthException.class)
     public R<?> handleAuthException(AuthException e) {
-        return R.failed(BusinessCodes.AUTH_ERROR, e.getMessage());
+        return R.failed(e.getCode(), e.getMessage());
     }
 }
