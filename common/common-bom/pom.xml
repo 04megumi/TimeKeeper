@@ -64,6 +64,12 @@
                 <artifactId>common-security</artifactId>
                 <version>${timkekeeper.version}</version>
             </dependency>
+            <!--admin-api-->
+            <dependency>
+                <groupId>com.timekeeper</groupId>
+                <artifactId>admin-api</artifactId>
+                <version>${timkekeeper.version}</version>
+            </dependency>
             <!--auth-api-->
             <dependency>
                 <groupId>com.timekeeper</groupId>
