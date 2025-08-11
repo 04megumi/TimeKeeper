@@ -7,6 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 
+import java.util.List;
+
 @UtilityClass
 public class SecurityUtils {
 
@@ -68,5 +70,14 @@ public class SecurityUtils {
     public String getUserPhoneNumber() {
         BaseUserDetails user = getUser();
         return user != null ? user.getUserPhoneNumber() : null;
+    }
+
+    /**
+     * 获取用户角色
+     *
+     * @return String
+     */
+    public List<String> getRoles() {
+        return getUser().getRoleIds();
     }
 }

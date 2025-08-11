@@ -21,4 +21,9 @@ public interface SecurityConstants {
      * 用户名
      */
     String DETAILS_USERNAME = "username";
+
+    /**
+     * OAUTH2 授权服务器标准
+     */
+    String SCOPE = "scope";
 }

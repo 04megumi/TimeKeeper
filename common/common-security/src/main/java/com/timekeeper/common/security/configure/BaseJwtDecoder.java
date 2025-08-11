@@ -19,6 +19,8 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtException;
 
+import java.util.stream.Collectors;
+
 /**
  * 自定义 JWT 解码器
  * <p>
@@ -73,8 +75,9 @@ public class BaseJwtDecoder implements JwtDecoder {
         return Jwt.withTokenValue(token)
                 .header(JWTHeader.ALGORITHM, jwt.getHeader(JWTHeader.ALGORITHM))
                 .expiresAt(expiresAt.toInstant())
-                .claim(SecurityConstants.DETAILS_USER, user)
-                .claim(SecurityConstants.ROLE, user.getRoleIds())
+                .claim(SecurityConstants.DETAILS_USER, user.getRoleIds().stream().
+                        map(x -> SecurityConstants.ROLE + x).collect(Collectors.toList()))
+                .claim(SecurityConstants.SCOPE, user.getRoleIds())
                 .subject(user.getUserNameEn())
                 .build();
     }
