@@ -75,9 +75,11 @@ public class BaseJwtDecoder implements JwtDecoder {
         return Jwt.withTokenValue(token)
                 .header(JWTHeader.ALGORITHM, jwt.getHeader(JWTHeader.ALGORITHM))
                 .expiresAt(expiresAt.toInstant())
-                .claim(SecurityConstants.DETAILS_USER, user.getRoleIds().stream().
-                        map(x -> SecurityConstants.ROLE + x).collect(Collectors.toList()))
-                .claim(SecurityConstants.SCOPE, user.getRoleIds())
+                .claim(SecurityConstants.DETAILS_USER, user)
+                .claim(SecurityConstants.SCOPE,
+                        user.getRoleIds().stream()
+                                .map(r -> SecurityConstants.ROLE + r)
+                                .collect(Collectors.toList()))
                 .subject(user.getUserNameEn())
                 .build();
     }
