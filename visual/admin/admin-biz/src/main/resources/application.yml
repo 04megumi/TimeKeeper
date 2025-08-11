@@ -1,15 +1,17 @@
 server:
-  port: 8848
+  port: 8081
 
-# Spring??
 spring:
-  # ?????
   datasource:
     username: ${MYSQL_USER:root}
     password: ${MYSQL_PWD:Wzy20041224!}
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DB:summer2025_dev}?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowMultiQueries=true
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DB:summer2025}?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowMultiQueries=true
 
 mybatis-plus:
   interceptor:
-    optimistic-lock: true   # 是否启用乐观锁插件（默认 false）
-    show-sql: true          # 是否打印 SQL（默认 true）
+    optimistic-lock: true
+    show-sql: true
+
+jwt:
+  secret-key: "xxx"
+
