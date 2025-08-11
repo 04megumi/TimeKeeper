@@ -40,6 +40,8 @@
         <module>common</module>
         <!--Visual-->
         <module>visual</module>
+        <!--Gateway-->
+        <module>gateway</module>
     </modules>
 
     <dependencies>
