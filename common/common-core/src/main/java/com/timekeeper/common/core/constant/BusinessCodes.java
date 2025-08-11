@@ -16,4 +16,6 @@ public interface BusinessCodes {
     int ACCESS_DENIED = 1000200;
 
     int AUTH_ERROR = 1000300;
+
+    int ADMIN_ERROR = 1000400;
 }

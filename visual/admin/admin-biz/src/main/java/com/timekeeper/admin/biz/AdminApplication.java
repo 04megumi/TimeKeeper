@@ -6,6 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(value = "com.timekeeper.common.data.mybatis")
+@ComponentScan(value = "com.timekeeper.common.security")
 public class AdminApplication {
 
     public static void main(String[] args) {
