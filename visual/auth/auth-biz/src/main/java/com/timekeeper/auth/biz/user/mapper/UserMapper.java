@@ -23,4 +23,8 @@ public interface UserMapper extends BaseMapper<User> {
     User getUserByPhoneNum(String phoneNum);
 
     User getUserByOpenidUserName(@Param("openid") String openid, @Param("userName") String userName);
+
+    // ====================== 恢复软删除 ======================
+
+    int restoreUserByUser(User user);
 }

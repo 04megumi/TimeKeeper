@@ -294,10 +294,9 @@ public class UserServiceImpl implements AuthUserDetailsService {
                 userMapper.insert(newUser);
                 return;
             }
-            user.setIsDeleted(0);
             user.setName(loginRequest.getUserName());
             user.setRole(RoleConstants.STUDENT);
-            userMapper.updateById(user);
+            userMapper.restoreUserByUser(user);
         } catch (Exception e) {
             throw new AuthException("注册异常::WX::" + e.getMessage());
         }
@@ -334,10 +333,9 @@ public class UserServiceImpl implements AuthUserDetailsService {
                 userMapper.insert(newUser);
                 return;
             }
-            user.setIsDeleted(0);
             user.setPassword(encoder.encode(loginRequest.getPassword()));
             user.setRole(RoleConstants.STUDENT);
-            userMapper.updateById(user);
+            userMapper.restoreUserByUser(user);
         } catch (Exception e) {
             throw new AuthException("注册异常::PHONE::" + e.getMessage());
         }
@@ -374,10 +372,9 @@ public class UserServiceImpl implements AuthUserDetailsService {
                 userMapper.insert(newUser);
                 return;
             }
-            user.setIsDeleted(0);
             user.setPassword(encoder.encode(loginRequest.getPassword()));
             user.setRole(RoleConstants.STUDENT);
-            userMapper.updateById(user);
+            userMapper.restoreUserByUser(user);
         } catch (Exception e) {
             throw new AuthException("注册异常::ACCOUNT::" + e.getMessage());
         }

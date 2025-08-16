@@ -59,7 +59,6 @@
             version
         FROM user
         WHERE name_en = #{userNameEn}
-          AND is_deleted = 0
     </select>
 
     <!-- 根据手机号查询用户 -->
@@ -80,7 +79,6 @@
             version
         FROM user
         WHERE phone_num = #{phoneNum}
-          AND is_deleted = 0
     </select>
 
     <!-- 根据openid -->
@@ -101,6 +99,21 @@
         FROM user
         WHERE openid = #{openid}
           AND name = #{userName}
-          AND is_deleted = 0
     </select>
+
+    <!-- 恢复被软删除的用户：按 uid -->
+    <update id="restoreUserByUser">
+        UPDATE user
+        SET
+            name = #{name},
+            name_en = #{nameEn},
+            phone_num = #{phoneNumber},
+            openid = #{openId},
+            role = #{role},
+            password = #{password},
+            is_deleted = 0
+        WHERE uid = #{uid}
+          AND is_deleted = 1
+    </update>
+
 </mapper>
