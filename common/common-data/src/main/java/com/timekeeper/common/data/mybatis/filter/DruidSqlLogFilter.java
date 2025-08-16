@@ -132,7 +132,7 @@ public class DruidSqlLogFilter extends FilterEventAdapter {
                 + "{}"
                 + "\n--------------------------------[ Sql Execution Time: {} ]---------------------------------\n";
         log.info(sqlLogger,
-                getDbName(statement.getConnectionProxy().getDirectDataSource().getName()),
+                getDbName(statement),
                 formatter.format(LocalDateTime.now()),
                 sql.trim(),
                 format(statement.getLastExecuteTimeNano()));
@@ -158,19 +158,13 @@ public class DruidSqlLogFilter extends FilterEventAdapter {
     }
 
     /**
-     * 获取数据库名称
+     * 获取数据库类型名称（例如：mysql、postgresql、oracle）
      *
-     * @param dbName 数据库名称
-     * @return 数据库名称
+     * @param statement SQL 执行的 StatementProxy
+     * @return 数据库类型名称，若无法识别则返回 "Unknown"
      */
-    private static String getDbName(String dbName) {
-        switch (dbName) {
-            case "mysql":
-                return "MySQL";
-            case "oushu":
-                return "OuShu";
-            default:
-                return "Unknown";
-        }
+    private static String getDbName(StatementProxy statement) {
+        DbType dbType = DbType.of(statement.getConnectionProxy().getDirectDataSource().getDbType());
+        return dbType == null ? "Unknown" : dbType.name();
     }
 }
