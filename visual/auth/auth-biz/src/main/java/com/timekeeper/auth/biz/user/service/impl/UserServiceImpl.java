@@ -176,16 +176,16 @@ public class UserServiceImpl implements AuthUserDetailsService {
      */
     private BaseUserDetails login(WechatMpAppLoginDTO loginRequest) {
         try {
-            if (ObjectUtil.isNull(loginRequest.getOpenid()) || ObjectUtil.isNull(loginRequest.getOpenid())) {
+            if (ObjectUtil.isNull(loginRequest.getOpenId()) || ObjectUtil.isNull(loginRequest.getOpenId())) {
                 throw new AuthException("校验参数");
             }
-            BaseUserDetails user = this.loadUserByOpenIdUserName(loginRequest.getOpenid(), loginRequest.getUserName());
+            BaseUserDetails user = this.loadUserByOpenIdUserName(loginRequest.getOpenId(), loginRequest.getUserName());
             // 小程序端 需要注册即登录
             if (ObjectUtil.isNull(user)) {
                 register(loginRequest);
             }
             // fix: 这里需要重新查询
-            return this.loadUserByOpenIdUserName(loginRequest.getOpenid(), loginRequest.getUserName());
+            return this.loadUserByOpenIdUserName(loginRequest.getOpenId(), loginRequest.getUserName());
         } catch (Exception e) {
             throw new AuthException("登录异常::WX::" + e.getMessage());
         }
@@ -278,17 +278,17 @@ public class UserServiceImpl implements AuthUserDetailsService {
      */
     private void register(WechatMpAppLoginDTO loginRequest) {
         try {
-            if (ObjectUtil.isNull(loginRequest.getOpenid()) || ObjectUtil.isNull(loginRequest.getOpenid())) {
+            if (ObjectUtil.isNull(loginRequest.getOpenId()) || ObjectUtil.isNull(loginRequest.getOpenId())) {
                 throw new AuthException("校验参数");
             }
 
-            User user = userMapper.getUserByOpenidUserName(loginRequest.getOpenid(), loginRequest.getUserName());
+            User user = userMapper.getUserByOpenidUserName(loginRequest.getOpenId(), loginRequest.getUserName());
             if (ObjectUtil.isNotNull(user) && user.isActive()) {
                 throw new AuthException("账号已存在: " + user.getOpenId() + "+" + user.getName());
             }
             if (ObjectUtil.isNull(user)) {
                 User newUser = new User();
-                newUser.setOpenId(loginRequest.getOpenid());
+                newUser.setOpenId(loginRequest.getOpenId());
                 newUser.setName(loginRequest.getUserName());
                 newUser.setRole(RoleConstants.STUDENT);
                 userMapper.insert(newUser);

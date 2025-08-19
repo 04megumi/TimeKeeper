@@ -31,7 +31,7 @@ public class WechatMpAppLoginDTO implements LoginRequest {
      * 微信小程序登录凭证 code（前端调用 wx.login() 获取）
      */
     @NonNull
-    private String openid;
+    private String openId;
 
     private String userName;
 }
