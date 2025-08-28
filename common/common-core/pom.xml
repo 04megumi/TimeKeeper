@@ -37,10 +37,6 @@
     <description>公共工具类核心包</description>
 
     <dependencies>
-        <dependency>
-            <groupId>com.timekeeper</groupId>
-            <artifactId>common-core</artifactId>
-        </dependency>
         <!-- hutool 依赖-->
         <dependency>
             <groupId>cn.hutool</groupId>
