@@ -55,6 +55,14 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- Spring Cloud Alibaba BOM 管理版本 -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>2021.0.4.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!--公共版本定义-->
             <dependency>
                 <groupId>com.timekeeper</groupId>

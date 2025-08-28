@@ -1,19 +1,19 @@
 server:
-  port: 8848
+  port: 8080
 
 spring:
   cloud:
     gateway:
       routes:
         - id: auth-service  # ??????ID
-          uri: http://localhost:8080
+          uri: http://localhost:8081
           predicates:
             - Path=/auth/**
           filters:
             - StripPrefix=1
 
         - id: admin-service # ????????ID
-          uri: http://localhost:8081
+          uri: http://localhost:8082
           predicates:
             - Path=/admin/**
           filters:
